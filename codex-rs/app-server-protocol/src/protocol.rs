@@ -271,7 +271,6 @@ pub struct InitializeParams {
 #[serde(rename_all = "camelCase")]
 pub struct ClientInfo {
     pub name: String,
-    #[serde(skip_serializing_if = "Option::is_none")]
     pub title: Option<String>,
     pub version: String,
 }
@@ -396,7 +395,6 @@ pub struct ConversationSummary {
     pub path: PathBuf,
     pub preview: String,
     /// RFC3339 timestamp string for the session start, if available.
-    #[serde(skip_serializing_if = "Option::is_none")]
     pub timestamp: Option<String>,
     /// Model provider recorded for the session (resolved when absent in metadata).
     pub model_provider: String,
@@ -681,11 +679,9 @@ pub struct GetUserSavedConfigResponse {
 #[serde(rename_all = "camelCase")]
 pub struct SetDefaultModelParams {
     /// If set to None, this means `model` should be cleared in config.toml.
-    #[serde(skip_serializing_if = "Option::is_none")]
     pub model: Option<String>,
     /// If set to None, this means `model_reasoning_effort` should be cleared
     /// in config.toml.
-    #[serde(skip_serializing_if = "Option::is_none")]
     pub reasoning_effort: Option<ReasoningEffort>,
 }
 
@@ -701,36 +697,24 @@ pub struct SetDefaultModelResponse {}
 #[serde(rename_all = "camelCase")]
 pub struct UserSavedConfig {
     /// Approvals
-    #[serde(skip_serializing_if = "Option::is_none")]
     pub approval_policy: Option<AskForApproval>,
-    #[serde(skip_serializing_if = "Option::is_none")]
     pub sandbox_mode: Option<SandboxMode>,
-    #[serde(skip_serializing_if = "Option::is_none")]
     pub sandbox_settings: Option<SandboxSettings>,
 
-    #[serde(skip_serializing_if = "Option::is_none")]
     pub forced_chatgpt_workspace_id: Option<String>,
-    #[serde(skip_serializing_if = "Option::is_none")]
     pub forced_login_method: Option<ForcedLoginMethod>,
 
     /// Model-specific configuration
-    #[serde(skip_serializing_if = "Option::is_none")]
     pub model: Option<String>,
-    #[serde(skip_serializing_if = "Option::is_none")]
     pub model_reasoning_effort: Option<ReasoningEffort>,
-    #[serde(skip_serializing_if = "Option::is_none")]
     pub model_reasoning_summary: Option<ReasoningSummary>,
-    #[serde(skip_serializing_if = "Option::is_none")]
     pub model_verbosity: Option<Verbosity>,
 
     /// Tools
-    #[serde(skip_serializing_if = "Option::is_none")]
     pub tools: Option<Tools>,
 
     /// Profiles
-    #[serde(skip_serializing_if = "Option::is_none")]
     pub profile: Option<String>,
-    #[serde(default)]
     pub profiles: HashMap<String, Profile>,
 }
 
@@ -749,14 +733,13 @@ pub struct Profile {
     pub model_verbosity: Option<Verbosity>,
     pub chatgpt_base_url: Option<String>,
 }
+
 /// MCP representation of a [`codex_core::config::ToolsToml`].
 #[derive(Deserialize, Debug, Clone, PartialEq, Serialize, JsonSchema, TS)]
 #[ts(optional_fields = nullable)]
 #[serde(rename_all = "camelCase")]
 pub struct Tools {
-    #[serde(skip_serializing_if = "Option::is_none")]
     pub web_search: Option<bool>,
-    #[serde(skip_serializing_if = "Option::is_none")]
     pub view_image: Option<bool>,
 }
 
@@ -767,11 +750,8 @@ pub struct Tools {
 pub struct SandboxSettings {
     #[serde(default)]
     pub writable_roots: Vec<PathBuf>,
-    #[serde(skip_serializing_if = "Option::is_none")]
     pub network_access: Option<bool>,
-    #[serde(skip_serializing_if = "Option::is_none")]
     pub exclude_tmpdir_env_var: Option<bool>,
-    #[serde(skip_serializing_if = "Option::is_none")]
     pub exclude_slash_tmp: Option<bool>,
 }
 
@@ -991,7 +971,6 @@ pub struct FuzzyFileSearchResult {
     pub path: String,
     pub file_name: String,
     pub score: u32,
-    #[serde(skip_serializing_if = "Option::is_none")]
     pub indices: Option<Vec<u32>>,
 }
 
@@ -1007,7 +986,6 @@ pub struct LoginChatGptCompleteNotification {
     #[schemars(with = "String")]
     pub login_id: Uuid,
     pub success: bool,
-    #[serde(skip_serializing_if = "Option::is_none")]
     pub error: Option<String>,
 }
 
@@ -1022,7 +1000,6 @@ pub struct SessionConfiguredNotification {
     pub model: String,
 
     /// The effort the model is putting into reasoning about the user's request.
-    #[serde(skip_serializing_if = "Option::is_none")]
     pub reasoning_effort: Option<ReasoningEffort>,
 
     /// Identifier of the history log file (inode on Unix, 0 otherwise).
@@ -1034,7 +1011,6 @@ pub struct SessionConfiguredNotification {
 
     /// Optional initial messages (as events) for resumed sessions.
     /// When present, UIs can use these to seed the history.
-    #[serde(skip_serializing_if = "Option::is_none")]
     pub initial_messages: Option<Vec<EventMsg>>,
 
     pub rollout_path: PathBuf,
@@ -1045,7 +1021,6 @@ pub struct SessionConfiguredNotification {
 #[serde(rename_all = "camelCase")]
 pub struct AuthStatusChangeNotification {
     /// Current authentication method; omitted if signed out.
-    #[serde(skip_serializing_if = "Option::is_none")]
     pub auth_method: Option<AuthMode>,
 }
 
