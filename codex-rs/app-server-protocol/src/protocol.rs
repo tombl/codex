@@ -333,7 +333,6 @@ pub struct NewConversationResponse {
     pub conversation_id: ConversationId,
     pub model: String,
     /// Note this could be ignored by the model.
-    #[serde(skip_serializing_if = "Option::is_none")]
     pub reasoning_effort: Option<ReasoningEffort>,
     pub rollout_path: PathBuf,
 }
@@ -344,7 +343,6 @@ pub struct NewConversationResponse {
 pub struct ResumeConversationResponse {
     pub conversation_id: ConversationId,
     pub model: String,
-    #[serde(skip_serializing_if = "Option::is_none")]
     pub initial_messages: Option<Vec<EventMsg>>,
     pub rollout_path: PathBuf,
 }
@@ -411,7 +409,6 @@ pub struct ListConversationsResponse {
     pub items: Vec<ConversationSummary>,
     /// Opaque cursor to pass to the next call to continue after the last item.
     /// if None, there are no more items to return.
-    #[serde(skip_serializing_if = "Option::is_none")]
     pub next_cursor: Option<String>,
 }
 
@@ -454,7 +451,6 @@ pub struct ListModelsResponse {
     pub items: Vec<Model>,
     /// Opaque cursor to pass to the next call to continue after the last item.
     /// if None, there are no more items to return.
-    #[serde(skip_serializing_if = "Option::is_none")]
     pub next_cursor: Option<String>,
 }
 
@@ -648,15 +644,12 @@ pub struct GetAccountRateLimitsResponse {
 #[serde(rename_all = "camelCase")]
 #[ts(optional_fields = nullable)]
 pub struct GetAuthStatusResponse {
-    #[serde(skip_serializing_if = "Option::is_none")]
     pub auth_method: Option<AuthMode>,
-    #[serde(skip_serializing_if = "Option::is_none")]
     pub auth_token: Option<String>,
 
     // Indicates that auth method must be valid to use the server.
     // This can be false if using a custom provider that is configured
     // with requires_openai_auth == false.
-    #[serde(skip_serializing_if = "Option::is_none")]
     pub requires_openai_auth: Option<bool>,
 }
 
